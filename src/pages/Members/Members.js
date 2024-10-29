@@ -1,6 +1,7 @@
+// src/pages/Members/Members.js
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Modal } from 'react-native';
-import styles from './styles'; // ajustado para o local correto
+import styles from './styles'; // Ajuste o caminho conforme necessário
 
 const membersData = [
   { id: '1', name: 'João', age: 30, motorcycle: 'Harley Davidson' },
@@ -9,17 +10,11 @@ const membersData = [
   // Adicione mais membros conforme necessário
 ];
 
-const Members = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedMember, setSelectedMember] = useState(null);
-
+const Members = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity 
       style={styles.item} 
-      onPress={() => {
-        setSelectedMember(item);
-        setModalVisible(true);
-      }}
+      onPress={() => navigation.navigate('MemberDetails', { member: item })}
     >
       <Text style={styles.name}>{item.name}</Text>
     </TouchableOpacity>
@@ -32,36 +27,12 @@ const Members = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
-
-      {selectedMember && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-            setSelectedMember(null);
-          }}
-        >
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Nome: {selectedMember.name}</Text>
-            <Text style={styles.modalText}>Idade: {selectedMember.age}</Text>
-            <Text style={styles.modalText}>Moto: {selectedMember.motorcycle}</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                setModalVisible(!modalVisible);
-                setSelectedMember(null);
-              }}
-            >
-              <Text style={styles.buttonText}>Fechar</Text>
-            </TouchableOpacity>
-          </View>
-        </Modal>
-      )}
     </View>
   );
 };
 
 export default Members;
+
+
+
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Navbar({ state, descriptors, navigation }) {
   return (
@@ -26,13 +27,34 @@ export default function Navbar({ state, descriptors, navigation }) {
           }
         };
 
+        // Ícone específico para cada rota
+        let iconName;
+        if (route.name === 'Login') {
+          iconName = isFocused ? 'log-in' : 'log-in-outline';
+        } else if (route.name === 'Map') {
+          iconName = isFocused ? 'map' : 'map-outline';
+        } else if (route.name === 'Members') {
+          iconName = isFocused ? 'people' : 'people-outline';
+        } else {
+          iconName = 'help-circle-outline'; // Ícone padrão caso ocorra erro
+        }
+
         return (
           <TouchableOpacity
             key={index}
             onPress={onPress}
-            style={[styles.button, isFocused ? styles.focused : null]}
+            style={[styles.button, isFocused && styles.focusedButton]}
+            activeOpacity={0.7}
           >
-            <Text style={styles.text}>{label}</Text>
+            <Ionicons
+              name={iconName}
+              size={28}
+              color={isFocused ? '#FFD700' : '#888'}
+              style={isFocused && styles.iconFocused}
+            />
+            <Text style={[styles.label, isFocused && styles.focusedLabel]}>
+              {label}
+            </Text>
           </TouchableOpacity>
         );
       })}
@@ -44,16 +66,40 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 10,
-    backgroundColor: '#ddd',
+    alignItems: 'center',
+    backgroundColor: '#1E1E1E',
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#444',
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowOffset: { width: 0, height: -2 },
+    shadowRadius: 8,
+    elevation: 6,
   },
   button: {
-    padding: 10,
+    alignItems: 'center',
+    paddingHorizontal: 16,
   },
-  focused: {
-    backgroundColor: '#bbb',
+  focusedButton: {
+    backgroundColor: '#333',
+    paddingVertical: 6,
+    paddingHorizontal: 18,
+    borderRadius: 22,
   },
-  text: {
-    fontSize: 16,
+  iconFocused: {
+    transform: [{ scale: 1.15 }],
+  },
+  label: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 4,
+  },
+  focusedLabel: {
+    color: '#FFD700',
+    fontWeight: '600',
+    fontSize: 13,
   },
 });
+
+

@@ -1,11 +1,12 @@
 // src/pages/Map.js
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 const MapScreen = () => {
   const [region, setRegion] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
@@ -14,6 +15,7 @@ const MapScreen = () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permissão para acessar a localização foi negada');
+        setLoading(false);
         return;
       }
 
@@ -25,10 +27,20 @@ const MapScreen = () => {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       });
+      setLoading(false);
     };
 
     getLocation();
   }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#007bff" />
+        <Text style={styles.loadingText}>Carregando mapa...</Text>
+      </View>
+    );
+  }
 
   if (errorMsg) {
     return (
@@ -38,21 +50,9 @@ const MapScreen = () => {
     );
   }
 
-  if (!region) {
-    return (
-      <View style={styles.container}>
-        <Text>Carregando mapa...</Text>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={region}
-      >
-        {/* Adicione um marcador na localização do usuário */}
+      <MapView style={styles.map} initialRegion={region}>
         <Marker
           coordinate={{ latitude: region.latitude, longitude: region.longitude }}
           title={"Você está aqui"}
@@ -66,12 +66,23 @@ const MapScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f4f4f4',
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#555',
   },
   map: {
     flex: 1,
+    width: '100%',
   },
 });
 
 export default MapScreen;
+
+
 
 

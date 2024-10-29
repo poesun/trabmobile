@@ -4,12 +4,12 @@ import 'firebase/auth'; // Se você precisar de autenticação
 import 'firebase/firestore'; // Se você precisar de Firestore
 
 const firebaseConfig = {
-  apiKey: 'SUA_API_KEY',
-  authDomain: 'SEU_AUTH_DOMAIN',
-  projectId: 'SEU_PROJECT_ID',
-  storageBucket: 'SEU_STORAGE_BUCKET',
-  messagingSenderId: 'SEU_MESSAGING_SENDER_ID',
-  appId: 'SEU_APP_ID',
+  apiKey: "AIzaSyAUiRprJ7qPKIRK9yHxtWQPP6OFyjNWDGY",
+  authDomain: "database-b0fef.firebaseapp.com",
+  projectId: "database-b0fef",
+  storageBucket: "database-b0fef.appspot.com",
+  messagingSenderId: "79271479086",
+  appId: "1:79271479086:web:5ad4803a742590d8355cbf"
 };
 
 // Inicialize o Firebase se ainda não estiver inicializado

@@ -1,6 +1,6 @@
 // src/firebase.js
 import firebase from 'firebase/app';
-import 'firebase/auth'; // Se você precisar de autenticação
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth';
 import 'firebase/firestore'; // Se você precisar de Firestore
 
 const firebaseConfig = {
@@ -15,9 +15,14 @@ const firebaseConfig = {
 // Inicialize o Firebase se ainda não estiver inicializado
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
+  firebase.getAuth(getAuth)
 }
 
 const db = firebase.firestore(); // Inicializa o Firestore
-const auth = firebase.auth(); // Inicializa a autenticação
+const autenticação = firebase.auth() // Inicializa a autenticação
+const createUserWithEmailAndPassword = firebase.createUserWithEmailAndPassword()
+const signInWithEmailAndPassword = firebase.signInWithEmailAndPassword()
+const onAuthStateChanged = firebase.onAuthStateChanged()
+const signOut= firebase.signOut()
 
-export { db, auth };
+export { db, autenticação ,createUserWithEmailAndPassword,signInWithEmailAndPassword, onAuthStateChanged, signOut};
